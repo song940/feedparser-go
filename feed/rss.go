@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/xml"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -16,6 +15,7 @@ type RssItem struct {
 }
 
 type RssFeed struct {
+	XMLName     xml.Name  `xml:"rss"`
 	Title       string    `xml:"channel>title"`
 	Description string    `xml:"channel>description"`
 	Link        string    `xml:"channel>link"`
@@ -36,12 +36,12 @@ func ParseRss(data []byte) (feed *RssFeed, err error) {
 func FetchRss(url string) (feed *RssFeed, err error) {
 	res, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
 		return
 	}
+	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 	feed, err = ParseRss(data)
 	return
