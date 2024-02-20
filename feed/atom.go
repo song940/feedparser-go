@@ -153,7 +153,7 @@ type AtomGenerator struct {
 // AtomText identifies human readable text.
 type AtomText struct {
 	// Text body (required).
-	Body string `xml:",chardata"`
+	Data string `xml:",chardata"`
 
 	// InnerXML data (optional).
 	InnerXML string `xml:",innerxml"`
@@ -166,12 +166,12 @@ type AtomText struct {
 }
 
 // parseAtom parses an atom feed and returns a generic feed.
-func ParseAtom(data []byte) (feed AtomFeed, err error) {
+func ParseAtom(data []byte) (feed *AtomFeed, err error) {
 	err = xml.Unmarshal(data, &feed)
 	return
 }
 
-func FetchAtom(url string) (feed AtomFeed, err error) {
+func FetchAtom(url string) (feed *AtomFeed, err error) {
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)

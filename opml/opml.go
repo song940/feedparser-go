@@ -6,13 +6,15 @@ import (
 )
 
 type Outline struct {
-	Title   string `xml:"title"`
+	Type    string `xml:"type,attr"`
+	Title   string `xml:"title,attr"`
 	Text    string `xml:"text,attr"`
 	XMLURL  string `xml:"xmlUrl,attr"`
 	HTMLURL string `xml:"htmlUrl,attr"`
 }
 
 type OPML struct {
+	XMLName   xml.Name  `xml:"opml"`
 	Title     string    `xml:"head>title"`
 	Outlines  []Outline `xml:"body>outline"`
 	CreatedAt time.Time `xml:"dateCreated"`
@@ -20,8 +22,5 @@ type OPML struct {
 
 func ParseOPML(data []byte) (opml *OPML, err error) {
 	err = xml.Unmarshal(data, &opml)
-	if err != nil {
-		return
-	}
 	return
 }

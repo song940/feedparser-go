@@ -16,6 +16,7 @@ type RssItem struct {
 }
 
 type RssFeed struct {
+	XMLName     xml.Name  `xml:"rss"`
 	Title       string    `xml:"channel>title"`
 	Description string    `xml:"channel>description"`
 	Link        string    `xml:"channel>link"`
