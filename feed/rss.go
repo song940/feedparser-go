@@ -7,11 +7,17 @@ import (
 	"net/http"
 )
 
+type RssGuid struct {
+	Value       string `xml:",chardata"`
+	IsPermaLink bool   `xml:"isPermaLink,attr,omitempty"`
+}
+
 type RssItem struct {
-	Title       string `xml:"title"`
-	Link        string `xml:"link"`
-	Description string `xml:"description"`
-	PubDate     string `xml:"pubDate"`
+	Title       string  `xml:"title"`
+	Link        string  `xml:"link"`
+	Description string  `xml:"description"`
+	PubDate     string  `xml:"pubDate"`
+	Guid        RssGuid `xml:"guid"`
 }
 
 type RssFeed struct {
