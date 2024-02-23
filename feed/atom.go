@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // AtomFeed represents an atom web feed.
@@ -85,6 +86,26 @@ type AtomEntry struct {
 
 	// Information about rights, for example copyrights (optional).
 	Rights AtomText `xml:"rights,omitempty"`
+}
+
+func (entry *AtomEntry) GetContent() (content string) {
+	content = strings.TrimSpace(entry.Content.Data)
+	if content != "" {
+		return
+	}
+	content = strings.TrimSpace(entry.Content.InnerXML)
+	if content != "" {
+		return
+	}
+	content = strings.TrimSpace(entry.Summary.Data)
+	if content != "" {
+		return
+	}
+	content = strings.TrimSpace(entry.Summary.InnerXML)
+	if content != "" {
+		return
+	}
+	return
 }
 
 // AtomLink represents the atom link tag.

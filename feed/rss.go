@@ -13,11 +13,26 @@ type RssGuid struct {
 }
 
 type RssItem struct {
-	Title       string  `xml:"title"`
-	Link        string  `xml:"link"`
-	Description string  `xml:"description"`
-	PubDate     string  `xml:"pubDate"`
-	Guid        RssGuid `xml:"guid"`
+	Guid           RssGuid `xml:"guid"`
+	Title          string  `xml:"title"`
+	Link           string  `xml:"link"`
+	Description    string  `xml:"description"`
+	PubDate        string  `xml:"pubDate"`
+	ContentEncoded string  `xml:"encoded,omitempty"`
+}
+
+func (item *RssItem) ID() string {
+	if item.Guid.Value != "" {
+		return item.Guid.Value
+	}
+	return item.Link
+}
+
+func (item *RssItem) GetContent() string {
+	if item.ContentEncoded != "" {
+		return item.ContentEncoded
+	}
+	return item.Description
 }
 
 type RssFeed struct {
